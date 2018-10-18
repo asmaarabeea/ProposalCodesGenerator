@@ -11,9 +11,10 @@ use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller
 {
     /**
-     * Create user
+     * Create user and create token
      *
-     * @param  [string] name
+     * @param  [string] first_name
+     * @param  [string] last_name
      * @param  [string] email
      * @param  [string] password
      * @param  [string] password_confirmation
@@ -22,11 +23,12 @@ class AuthController extends Controller
      */
     public function signup(Request $request)
     {
-        $requested_data = $request->only('first_name', 'last_name', 'email', 'password', 'password_confirmation');
+        $requested_data = $request->only('first_name', 'last_name', 'email', 'role_id', 'password', 'password_confirmation');
         $validator      = Validator::make($requested_data, [
             'first_name' => 'required|string|min:3|max:255',
             'last_name'  => 'required|string|min:3|max:255',
             'email'      => 'required|email|max:255|unique:users,email',
+            'role_id'    => 'required|exists:roles,id',
             'password'   => 'required|min:6|string|confirmed'
         ]);
         if ($validator->errors()->any()) {
@@ -41,9 +43,9 @@ class AuthController extends Controller
 
         $tokenResult = $user->createToken('Personal Access Token');
         $token       = $tokenResult->token;
-        if ($request->remember_me)
-            $token->expires_at = Carbon::now()->addWeeks(1);
+        $token->expires_at = Carbon::now()->addWeeks(1);
         $token->save();
+
         return response()->json([
             'message'      => 'user created successfully',
             'access_token' => $tokenResult->accessToken,
@@ -56,23 +58,17 @@ class AuthController extends Controller
 
     /**
      * Login user and create token
+     * @param Request $request
      *
      * @param  [string] email
      * @param  [string] password
      * @param  [boolean] remember_me
      *
-     * @return [string] access_token
-     * @return [string] token_type
-     * @return [string] expires_at
+     * @return \Illuminate\Http\JsonResponse
      */
     public function login(Request $request)
     {
-        $request->validate([
-            'email'       => 'required|string|email',
-            'password'    => 'required|string',
-            'remember_me' => 'boolean'
-        ]);
-        $requested_data = $request->only('first_name', 'last_name', 'email', 'password', 'password_confirmation');
+        $requested_data = $request->only('email', 'password', 'remember_me');
         $validator      = Validator::make($requested_data, [
             'email'       => 'required|email|max:255',
             'password'    => 'required|min:6|string',
@@ -105,9 +101,9 @@ class AuthController extends Controller
 
 
     /**
+     * @param Request $request
      * Logout user (Revoke the token)
-     *
-     * @return [string] message
+     * @return \Illuminate\Http\JsonResponse
      */
     public function logout(Request $request)
     {
@@ -119,7 +115,7 @@ class AuthController extends Controller
 
     /**
      * @return \Illuminate\Http\JsonResponse
-    */
+     */
     public function user()
     {
         return response()->json(auth()->user());

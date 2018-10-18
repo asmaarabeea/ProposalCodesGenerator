@@ -13,7 +13,7 @@ class User extends Authenticatable
     public $timestamps = TRUE;
     protected $dates = ['created_at','updated_at','deleted_at'];
     protected $fillable  = [
-        'first_name', 'last_name', 'email', 'password',
+        'first_name', 'last_name', 'email', 'password', 'role_id'
     ];
 
     protected static $logAttributes = [
@@ -36,9 +36,9 @@ class User extends Authenticatable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function code()
+    public function role()
     {
-        return $this->hasOne('App\Code');
+        return $this->hasOne('App\Role');
     }
 
     /**
