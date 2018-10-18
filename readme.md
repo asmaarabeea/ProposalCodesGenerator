@@ -16,6 +16,7 @@ A Task serves sales team for generating proposals codes.
 4) run command php artisan:migrate --seed
 5) mv .env.example .env
 7) php artisan key:generate
+8) run command php artisan passport:install
 6) Open git bash from the project folder then run this laravel server (php artisan serve).
 
 
