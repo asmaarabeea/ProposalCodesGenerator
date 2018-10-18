@@ -2,10 +2,10 @@
 
 A Task serves sales team for generating proposals codes.
 
-3. Programming Languages and Technologies.
+1. Programming Languages and Technologies.
  Php version 7.1.3
  Laravel version 5.7
-4. GitHub.
+2. GitHub.
   
   ## Detailed Steps To Run The Project
   How to start the project
