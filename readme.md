@@ -13,8 +13,8 @@ A Task serves sales team for generating proposals codes.
 1) git clone https://github.com/asmaarabeea/ProposalCodesGenerator.git
 2) cd ProposalCodesGenerator
 3) run command composer install
-4) run command php artisan migrate --seed
-5) mv .env.example .env
+4) mv .env.example .env and find DB_DATABASE
+5) run command php artisan migrate --seed
 7) php artisan key:generate
 8) run command php artisan passport:install
 6) Open git bash from the project folder then run this laravel server (php artisan serve).
