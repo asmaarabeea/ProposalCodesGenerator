@@ -18,7 +18,7 @@ A Task serves sales team for generating proposals codes.
 7) php artisan key:generate
 8) run command php artisan passport:install
 6) Open git bash from the project folder then run this laravel server (php artisan serve).
-
+7) you could find API documentaion in public/docs/index.html.
 
 Security Vulnerabilities
 
